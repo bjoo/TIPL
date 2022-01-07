@@ -2,6 +2,9 @@ cmake_minimum_required (VERSION 3.17)
 project (TIPL VERSION 0 LANGUAGES CXX)
 configure_file (tipl.pc.in tipl.pc @ONLY)
 
+# Build with Kokkos
+option(TIPL_ENABLE_KOKKOS "Enable Kokkos" OFF)
+
 
 # Install pkg-config file
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/tipl.pc DESTINATION share/pkgconfig)
@@ -25,11 +28,16 @@ if( Threads_FOUND )
   target_link_libraries(tipl INTERFACE Threads::Threads )
 endif()
 
+if( TIPL_ENABLE_KOKKOS )
+  find_package(Kokkos REQUIRED)
+  target_link_libraries(tipl INTERFACE Kokkos::kokkos )
+endif()
+
 # Set some properties -- technically for portability
 # we should switch off GNU targets, but for now let us
 # Leave them on for 'anonymous-structs`
-set_target_properties(tipl PROPERTIES 
-                      CXX_STANDARD `14)
+#set_target_properties(tipl PROPERTIES 
+#                      CXX_STANDARD_REQUIRED 14)
 
 
 

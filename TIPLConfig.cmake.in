@@ -5,4 +5,10 @@ set(Threads_USED @Threads_FOUND@)
 if( Threads_USED )
   find_dependency(Threads)
 endif()
+
+set(TIPL_ENABLE_KOKKOS @TIPL_ENABLE_KOKKOS@)
+if( TIPL_ENABLE_KOKKOS ) 
+  find_dependency(Kokkos)
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/TIPLTargets.cmake)
